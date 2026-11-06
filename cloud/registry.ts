@@ -70,6 +70,8 @@ export const SHARED_MODULES = new Set([
     'washer_common',
     'fridge_common',
     'dishwasher_common',
+    'entities',
+    'laundry_entities',
 ])
 
 const devicesDir = fileURLToPath(new URL('./devices/', import.meta.url))

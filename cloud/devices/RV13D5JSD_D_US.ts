@@ -6,6 +6,8 @@ import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
 import { type ModelEntry } from '../registry'
+import { entities } from './entities'
+import { laundry } from './laundry_entities'
 
 // LG DLEX4200B electric dryer, matched on modelId "RV13D5JSD_D_US" (ThinQ2 deviceType 202).
 // The wire format is the same 29-byte AABB record family used by the RV13B6 dryers:
@@ -108,19 +110,15 @@ export default class Device extends AABBDevice {
         this.setConfig(
             allowExtendedType({
                 ...HADevice.config(meta, { name: 'LG Dryer' }),
-                components: {
+                components: entities({
                     power: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-power',
-                        state_topic: '$this/power',
                         name: 'Power',
                         icon: 'mdi:tumble-dryer',
                         device_class: 'running',
                     },
                     power_off: {
                         platform: 'button',
-                        unique_id: '$deviceid-power_off',
-                        command_topic: '$this/power_off/set',
                         payload_press: 'PRESS',
                         name: 'Power off',
                         icon: 'mdi:power-off',
@@ -134,8 +132,6 @@ export default class Device extends AABBDevice {
                     },
                     status: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-status',
-                        state_topic: '$this/status',
                         name: 'Run state',
                         icon: 'mdi:state-machine',
                         device_class: 'enum',
@@ -143,58 +139,20 @@ export default class Device extends AABBDevice {
                     },
                     dry_completed: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-dry_completed',
-                        state_topic: '$this/dry_completed',
                         name: 'Dry completed',
                         icon: 'mdi:check-circle',
                     },
                     course: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-course',
-                        state_topic: '$this/course',
                         name: 'Current course',
                         icon: 'mdi:format-list-bulleted',
                     },
-                    remaining_time: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-remaining_time',
-                        state_topic: '$this/remaining_time',
-                        name: 'Remaining time',
-                        icon: 'mdi:timer-outline',
-                        device_class: 'duration',
-                        unit_of_measurement: 'min',
-                    },
-                    initial_time: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-initial_time',
-                        state_topic: '$this/initial_time',
-                        name: 'Initial time',
-                        icon: 'mdi:timer-sand',
-                        device_class: 'duration',
-                        unit_of_measurement: 'min',
-                    },
-                    dry_level: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-dry_level',
-                        state_topic: '$this/dry_level',
-                        name: 'Dry level',
-                        icon: 'mdi:water-percent',
-                        device_class: 'enum',
-                        options: DRY_LEVEL.options,
-                    },
-                    temp: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-temp',
-                        state_topic: '$this/temp',
-                        name: 'Temperature',
-                        icon: 'mdi:thermometer',
-                        device_class: 'enum',
-                        options: TEMP.options,
-                    },
+                    remaining_time: laundry.remainingTime({ icon: 'mdi:timer-outline' }),
+                    initial_time: laundry.initialTime({ icon: 'mdi:timer-sand' }),
+                    dry_level: laundry.dryLevel(DRY_LEVEL.options),
+                    temp: laundry.temperature(TEMP.options, { icon: 'mdi:thermometer' }),
                     time_dry_setting: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-time_dry_setting',
-                        state_topic: '$this/time_dry_setting',
                         name: 'Time Dry setting',
                         icon: 'mdi:timer-cog-outline',
                         unit_of_measurement: 'min',
@@ -202,8 +160,6 @@ export default class Device extends AABBDevice {
                     },
                     more_less_time: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-more_less_time',
-                        state_topic: '$this/more_less_time',
                         name: 'More/Less time',
                         icon: 'mdi:plus-minus-variant',
                         device_class: 'duration',
@@ -212,58 +168,28 @@ export default class Device extends AABBDevice {
                     },
                     signal: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-signal',
-                        state_topic: '$this/signal',
                         name: 'Signal',
                         icon: 'mdi:bell-outline',
                         device_class: 'enum',
                         options: SIGNAL.options,
                         entity_category: 'diagnostic',
                     },
-                    reduce_static: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-reduce_static',
-                        state_topic: '$this/reduce_static',
-                        name: 'Reduce static',
-                        icon: 'mdi:flash-off-outline',
-                    },
-                    damp_dry_signal: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-damp_dry_signal',
-                        state_topic: '$this/damp_dry_signal',
-                        name: 'Damp Dry Signal',
-                        icon: 'mdi:water-alert-outline',
-                    },
-                    energy_saver: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-energy_saver',
-                        state_topic: '$this/energy_saver',
-                        name: 'Energy Saver',
-                        icon: 'mdi:leaf',
-                    },
+                    reduce_static: laundry.reduceStatic(),
+                    damp_dry_signal: laundry.dampDrySignal(),
+                    energy_saver: laundry.energySaver(),
                     turbo_steam: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-turbo_steam',
-                        state_topic: '$this/turbo_steam',
                         name: 'TurboSteam',
                         icon: 'mdi:kettle-steam',
                     },
-                    wrinkle_care: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-wrinkle_care',
-                        state_topic: '$this/wrinkle_care',
-                        name: 'Wrinkle Care',
-                        icon: 'mdi:tshirt-crew-outline',
-                    },
+                    wrinkle_care: laundry.wrinkleCare(),
                     load_item: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-load_item',
-                        state_topic: '$this/load_item',
                         name: 'Load items',
                         icon: 'mdi:tshirt-crew-outline',
                         entity_category: 'diagnostic',
                     },
-                },
+                }),
             }),
         )
     }

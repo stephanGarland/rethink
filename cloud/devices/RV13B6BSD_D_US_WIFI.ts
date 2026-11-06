@@ -6,6 +6,8 @@ import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
 import { type ModelEntry } from '../registry'
+import { entities } from './entities'
+import { laundry } from './laundry_entities'
 
 // LG electric dryer — matched on modelId "RV13B6BSD_D_US_WIFI" (real-world nameplate DLEX3900B, product
 // code RV13B6JSD.ABLEEUS). AABB frames (buf = the AABB body, AA+len and checksum+BB already stripped)
@@ -116,43 +118,23 @@ export default class Device extends AABBDevice {
         this.setConfig(
             allowExtendedType({
                 ...HADevice.config(meta, { name: 'LG Dryer' }),
-                components: {
+                components: entities({
                     power: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-power',
-                        state_topic: '$this/power',
                         name: 'Power',
                         icon: 'mdi:tumble-dryer',
                         device_class: 'running',
                     },
                     status: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-status',
-                        state_topic: '$this/status',
                         name: 'Status',
                         icon: 'mdi:state-machine',
                         // free-text (NOT device_class:enum): unmapped phase codes emit 'Running'.
                     },
-                    course: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-course',
-                        state_topic: '$this/course',
-                        name: 'Course',
-                        icon: 'mdi:pin-outline',
-                    },
-                    remaining_time: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-remaining_time',
-                        state_topic: '$this/remaining_time',
-                        name: 'Remaining time',
-                        icon: 'mdi:timer-outline',
-                        device_class: 'duration',
-                        unit_of_measurement: 'min',
-                    },
+                    course: laundry.course(),
+                    remaining_time: laundry.remainingTime({ icon: 'mdi:timer-outline' }),
                     initial_time: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-initial_time',
-                        state_topic: '$this/initial_time',
                         name: 'Initial time estimate',
                         icon: 'mdi:clock-outline',
                         device_class: 'duration',
@@ -161,62 +143,26 @@ export default class Device extends AABBDevice {
                     },
                     dry_level: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-dry_level',
-                        state_topic: '$this/dry_level',
                         name: 'Dry level',
                         icon: 'mdi:water-percent',
                     },
                     temp: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-temp',
-                        state_topic: '$this/temp',
                         name: 'Temperature',
                         icon: 'mdi:thermometer',
                     },
-                    reduce_static: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-reduce_static',
-                        state_topic: '$this/reduce_static',
-                        name: 'Reduce static',
-                        icon: 'mdi:flash-off-outline',
-                    },
-                    damp_dry_signal: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-damp_dry_signal',
-                        state_topic: '$this/damp_dry_signal',
-                        name: 'Damp Dry Signal',
-                        icon: 'mdi:water-alert-outline',
-                    },
+                    reduce_static: laundry.reduceStatic(),
+                    damp_dry_signal: laundry.dampDrySignal(),
                     child_lock: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-child_lock',
-                        state_topic: '$this/child_lock',
                         name: 'Child lock',
                         icon: 'mdi:lock',
                         entity_category: 'diagnostic',
                     },
-                    energy_saver: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-energy_saver',
-                        state_topic: '$this/energy_saver',
-                        name: 'Energy Saver',
-                        icon: 'mdi:leaf',
-                    },
-                    turbo_steam: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-turbo_steam',
-                        state_topic: '$this/turbo_steam',
-                        name: 'Turbo Steam',
-                        icon: 'mdi:kettle-steam',
-                    },
-                    wrinkle_care: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-wrinkle_care',
-                        state_topic: '$this/wrinkle_care',
-                        name: 'Wrinkle Care',
-                        icon: 'mdi:tshirt-crew-outline',
-                    },
-                },
+                    energy_saver: laundry.energySaver(),
+                    turbo_steam: laundry.turboSteam(),
+                    wrinkle_care: laundry.wrinkleCare(),
+                }),
             }),
         )
     }

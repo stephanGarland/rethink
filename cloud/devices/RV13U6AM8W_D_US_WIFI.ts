@@ -6,6 +6,8 @@ import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
 import { type ModelEntry } from '../registry'
+import { entities } from './entities'
+import { laundry } from './laundry_entities'
 
 const STATUS = Enum.of({
     Off: 0x00,
@@ -70,67 +72,30 @@ export default class Device extends AABBDevice {
         this.setConfig(
             allowExtendedType({
                 ...HADevice.config(meta, { name: 'LG Dryer' }),
-                components: {
-                    status: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-status',
-                        state_topic: '$this/status',
-                        name: 'Status',
-                        icon: 'mdi:state-machine',
-                        device_class: 'enum',
-                        options: STATUS.options,
-                    },
-                    remaining_time: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-remaining_time',
-                        state_topic: '$this/remaining_time',
-                        name: 'Remaining time',
-                        device_class: 'duration',
-                        unit_of_measurement: 'min',
-                    },
+                components: entities({
+                    status: laundry.status(STATUS.options),
+                    remaining_time: laundry.remainingTime(),
                     power: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-power',
-                        state_topic: '$this/power',
                         name: 'Power',
                         icon: 'mdi:tumble-dryer',
                         device_class: 'running',
                     },
                     drum_running: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-drum_running',
-                        state_topic: '$this/drum_running',
                         name: 'Drum running',
                         icon: 'mdi:rotate-3d-variant',
                     },
                     cycle: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-cycle',
-                        state_topic: '$this/cycle',
                         name: 'Cycle',
                         icon: 'mdi:tumble-dryer',
                         device_class: 'enum',
                         options: CYCLES.options,
                     },
-                    temp: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-temp',
-                        state_topic: '$this/temp',
-                        name: 'Temperature',
-                        icon: 'mdi:thermometer',
-                        device_class: 'enum',
-                        options: TEMPS.options,
-                    },
-                    dry_level: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-dry_level',
-                        state_topic: '$this/dry_level',
-                        name: 'Dry level',
-                        icon: 'mdi:water-percent',
-                        device_class: 'enum',
-                        options: DRY_LEVELS.options,
-                    },
-                },
+                    temp: laundry.temperature(TEMPS.options, { icon: 'mdi:thermometer' }),
+                    dry_level: laundry.dryLevel(DRY_LEVELS.options),
+                }),
             }),
         )
     }

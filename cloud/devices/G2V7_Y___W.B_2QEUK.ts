@@ -6,6 +6,8 @@ import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
 import { type ModelEntry } from '../registry'
+import { entities } from './entities'
+import { laundry } from './laundry_entities'
 
 // LG F2NX50S9TKC (2025 slim front-loader, EU). The F2X50S9THB of #85 reports the same model id. Wi-Fi
 // module RTK_RTL8720cm, appInfo protocolVer 7.
@@ -103,117 +105,22 @@ export default class Device extends AABBDevice {
         this.setConfig(
             allowExtendedType({
                 ...HADevice.config(meta, { name: 'LG Washer' }),
-                components: {
-                    power: {
-                        platform: 'switch',
-                        unique_id: '$deviceid-power',
-                        state_topic: '$this/power',
-                        command_topic: '$this/power/set',
-                        name: '',
-                        icon: 'mdi:washing-machine',
-                    },
-                    start: {
-                        platform: 'button',
-                        unique_id: '$deviceid-start',
-                        command_topic: '$this/start/set',
-                        payload_press: '',
-                        name: 'Start',
-                        icon: 'mdi:play-circle-outline',
-                    },
-                    pause: {
-                        platform: 'button',
-                        unique_id: '$deviceid-pause',
-                        command_topic: '$this/pause/set',
-                        payload_press: '',
-                        name: 'Pause',
-                        icon: 'mdi:pause-circle-outline',
-                    },
-                    status: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-status',
-                        state_topic: '$this/status',
-                        name: 'Status',
-                        icon: 'mdi:state-machine',
-                        device_class: 'enum',
-                        options: STATES.options,
-                    },
-                    course: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-course',
-                        state_topic: '$this/course',
-                        name: 'Course',
-                        icon: 'mdi:pin-outline',
-                        device_class: 'enum',
-                        options: COURSES.options,
-                    },
-                    temp: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-temp',
-                        state_topic: '$this/temp',
-                        name: 'Temperature',
-                        device_class: 'enum',
-                        options: TEMPERATURES.options,
-                    },
-                    spin: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-spin',
-                        state_topic: '$this/spin',
-                        name: 'Spin',
-                        icon: 'mdi:autorenew',
-                        device_class: 'enum',
-                        options: SPINS.options,
-                    },
-                    initial_time: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-initial_time',
-                        state_topic: '$this/initial_time',
-                        device_class: 'duration',
-                        unit_of_measurement: 'min',
-                        name: 'Initial time',
-                    },
-                    remaining_time: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-remaining_time',
-                        state_topic: '$this/remaining_time',
-                        device_class: 'duration',
-                        unit_of_measurement: 'min',
-                        name: 'Remaining time',
-                    },
-                    energy: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-energy',
-                        state_topic: '$this/energy',
-                        name: 'Energy',
-                        icon: 'mdi:lightning-bolt',
-                        device_class: 'energy',
-                        state_class: 'total_increasing',
-                        unit_of_measurement: 'Wh',
-                    },
-                    door: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-door',
-                        state_topic: '$this/door',
-                        name: 'Door',
-                        device_class: 'door',
-                    },
-                    child_lock: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-child_lock',
-                        state_topic: '$this/child_lock',
-                        name: 'Child lock',
-                        device_class: 'lock',
-                    },
-                    remote_start: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-remote_start',
-                        state_topic: '$this/remote_start',
-                        name: 'Remote start',
-                        icon: 'mdi:play-circle-outline',
-                    },
+                components: entities({
+                    power: laundry.power(),
+                    start: laundry.start(),
+                    pause: laundry.pause(),
+                    status: laundry.status(STATES.options),
+                    course: laundry.course({ device_class: 'enum', options: COURSES.options }),
+                    temp: laundry.temperature(TEMPERATURES.options),
+                    spin: laundry.spin(SPINS.options),
+                    initial_time: laundry.initialTime(),
+                    remaining_time: laundry.remainingTime(),
+                    energy: laundry.energy(),
+                    door: laundry.door(),
+                    child_lock: laundry.childLock(),
+                    remote_start: laundry.remoteStart(),
                     delay_end: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-delay_end',
-                        state_topic: '$this/delay_end',
                         device_class: 'duration',
                         unit_of_measurement: 'min',
                         name: 'Delay end',
@@ -221,42 +128,19 @@ export default class Device extends AABBDevice {
                     },
                     rinse_plus: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-rinse_plus',
-                        state_topic: '$this/rinse_plus',
                         name: 'Rinse+',
                         icon: 'mdi:water-plus',
                     },
                     intensive: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-intensive',
-                        state_topic: '$this/intensive',
                         name: 'Intensive',
                         icon: 'mdi:washing-machine',
                     },
-                    prewash: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-prewash',
-                        state_topic: '$this/prewash',
-                        name: 'Pre-wash',
-                        icon: 'mdi:water-sync',
-                    },
-                    turbowash: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-turbowash',
-                        state_topic: '$this/turbowash',
-                        name: 'TurboWash',
-                        icon: 'mdi:rocket-launch',
-                    },
-                    tub_clean_count: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-tub_clean_count',
-                        state_topic: '$this/tub_clean_count',
-                        name: 'Washes since drum clean',
-                        icon: 'mdi:washing-machine-alert',
-                        // no state_class: it goes back to zero at each drum clean
-                        entity_category: 'diagnostic',
-                    },
-                },
+                    prewash: laundry.preWash(),
+                    turbowash: laundry.turboWash(),
+                    // no state_class: it goes back to zero at each drum clean
+                    tub_clean_count: laundry.tubCleanCount(),
+                }),
             }),
         )
     }

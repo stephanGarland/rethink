@@ -7,6 +7,8 @@ import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
 import { RINSES, SPINS, TEMPERATURES } from './washer_common'
 import { type ModelEntry } from '../registry'
+import { entities } from './entities'
+import { laundry } from './laundry_entities'
 
 // LG F4X7511TWS front-load washer — matched on modelId "VCDWL2QEUK". Unlike the 80-byte
 // single-frame F-class washers, this model emits several AABB frame types, discriminated by inner[3]
@@ -153,74 +155,20 @@ export default class Device extends AABBDevice {
         this.setConfig(
             allowExtendedType({
                 ...HADevice.config(meta, { name: 'LG Washer' }),
-                components: {
+                components: entities({
                     power: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-power',
-                        state_topic: '$this/power',
                         name: 'Power',
                         icon: 'mdi:washing-machine',
                         device_class: 'running',
                     },
-                    status: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-status',
-                        state_topic: '$this/status',
-                        name: 'Status',
-                        icon: 'mdi:state-machine',
-                        device_class: 'enum',
-                        options: STATUS.options,
-                    },
-                    course: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-course',
-                        state_topic: '$this/course',
-                        name: 'Course',
-                        icon: 'mdi:pin-outline',
-                    },
-                    temp: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-temp',
-                        state_topic: '$this/temp',
-                        name: 'Temperature',
-                        device_class: 'enum',
-                        options: TEMPERATURES.options,
-                    },
-                    spin: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-spin',
-                        state_topic: '$this/spin',
-                        name: 'Spin',
-                        icon: 'mdi:autorenew',
-                        device_class: 'enum',
-                        options: SPINS.options,
-                    },
-                    energy: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-energy',
-                        state_topic: '$this/energy',
-                        name: 'Energy',
-                        icon: 'mdi:lightning-bolt',
-                        device_class: 'energy',
-                        state_class: 'total_increasing',
-                        unit_of_measurement: 'Wh',
-                    },
-                    initial_time: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-initial_time',
-                        state_topic: '$this/initial_time',
-                        device_class: 'duration',
-                        unit_of_measurement: 'min',
-                        name: 'Initial time',
-                    },
-                    remaining_time: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-remaining_time',
-                        state_topic: '$this/remaining_time',
-                        device_class: 'duration',
-                        unit_of_measurement: 'min',
-                        name: 'Remaining time',
-                    },
+                    status: laundry.status(STATUS.options),
+                    course: laundry.course(),
+                    temp: laundry.temperature(TEMPERATURES.options),
+                    spin: laundry.spin(SPINS.options),
+                    energy: laundry.energy(),
+                    initial_time: laundry.initialTime(),
+                    remaining_time: laundry.remainingTime(),
                     door: {
                         platform: 'binary_sensor',
                         unique_id: '$deviceid-door',
@@ -230,22 +178,16 @@ export default class Device extends AABBDevice {
                     },
                     detergent_dispenser: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-detergent_dispenser',
-                        state_topic: '$this/detergent_dispenser',
                         name: 'Detergent dispenser',
                         icon: 'mdi:cup-water',
                     },
                     softener_dispenser: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-softener_dispenser',
-                        state_topic: '$this/softener_dispenser',
                         name: 'Softener dispenser',
                         icon: 'mdi:cup-water',
                     },
                     detergent_dose: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-detergent_dose',
-                        state_topic: '$this/detergent_dose',
                         name: 'Detergent dose',
                         icon: 'mdi:cup',
                         device_class: 'volume',
@@ -254,8 +196,6 @@ export default class Device extends AABBDevice {
                     },
                     softener_dose: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-softener_dose',
-                        state_topic: '$this/softener_dose',
                         name: 'Softener dose',
                         icon: 'mdi:cup-outline',
                         device_class: 'volume',
@@ -264,67 +204,29 @@ export default class Device extends AABBDevice {
                     },
                     soil: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-soil',
-                        state_topic: '$this/soil',
                         name: 'Soil level',
                         icon: 'mdi:liquid-spot',
                         // free-text (like course/status): unmapped levels read unknown.
                     },
                     rinse: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-rinse',
-                        state_topic: '$this/rinse',
                         name: 'Rinse',
                         icon: 'mdi:water-sync',
                     },
-                    prewash: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-prewash',
-                        state_topic: '$this/prewash',
-                        name: 'Pre-wash',
-                        icon: 'mdi:water-sync',
-                    },
-                    turbowash: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-turbowash',
-                        state_topic: '$this/turbowash',
-                        name: 'TurboWash',
-                        icon: 'mdi:rocket-launch',
-                    },
-                    steam: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-steam',
-                        state_topic: '$this/steam',
-                        name: 'Steam',
-                        icon: 'mdi:kettle-steam',
-                    },
+                    prewash: laundry.preWash(),
+                    turbowash: laundry.turboWash(),
+                    steam: laundry.steam(),
                     child_lock: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-child_lock',
-                        state_topic: '$this/child_lock',
                         name: 'Child lock',
                         icon: 'mdi:lock', // NOT device_class 'lock' — that class is inverted (on = unlocked)
                         entity_category: 'diagnostic',
                     },
-                    remote_start: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-remote_start',
-                        state_topic: '$this/remote_start',
-                        name: 'Remote start',
-                        icon: 'mdi:play-circle-outline',
-                        entity_category: 'diagnostic',
-                    },
-                    tub_clean_count: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-tub_clean_count',
-                        state_topic: '$this/tub_clean_count',
-                        name: 'Washes since drum clean',
-                        icon: 'mdi:washing-machine-alert',
-                        // No state_class: this counter RESETS to a low value at each drum-clean;
-                        // total_increasing would wrongly accumulate across the reset. Raw value is what we want.
-                        entity_category: 'diagnostic',
-                    },
-                },
+                    remote_start: laundry.remoteStart({ entity_category: 'diagnostic' }),
+                    // No state_class: this counter RESETS to a low value at each drum-clean;
+                    // total_increasing would wrongly accumulate across the reset. Raw value is what we want.
+                    tub_clean_count: laundry.tubCleanCount(),
+                }),
             }),
         )
     }

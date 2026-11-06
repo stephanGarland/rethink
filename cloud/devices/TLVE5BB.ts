@@ -6,6 +6,8 @@ import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
 import { type ModelEntry } from '../registry'
+import { entities } from './entities'
+import { laundry } from './laundry_entities'
 
 // LG WT21BWV6 top-load washer, matched on modelId "TLVE5BB" (thinq2 deviceType 201).
 //
@@ -109,114 +111,35 @@ export default class Device extends AABBDevice {
         this.setConfig(
             allowExtendedType({
                 ...HADevice.config(meta, { name: 'LG Washer' }),
-                components: {
+                components: entities({
                     power: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-power',
-                        state_topic: '$this/power',
                         name: 'Power',
                         icon: 'mdi:washing-machine',
                         device_class: 'running',
                     },
-                    status: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-status',
-                        state_topic: '$this/status',
-                        name: 'Status',
-                        icon: 'mdi:state-machine',
-                        device_class: 'enum',
-                        options: STATUS.options,
-                    },
-                    remaining_time: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-remaining_time',
-                        state_topic: '$this/remaining_time',
-                        name: 'Remaining time',
-                        icon: 'mdi:timer-outline',
-                        device_class: 'duration',
-                        unit_of_measurement: 'min',
-                    },
-                    initial_time: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-initial_time',
-                        state_topic: '$this/initial_time',
-                        name: 'Initial time',
-                        icon: 'mdi:timer-sand',
-                        device_class: 'duration',
-                        unit_of_measurement: 'min',
-                    },
-                    energy: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-energy',
-                        state_topic: '$this/energy',
-                        name: 'Energy',
-                        icon: 'mdi:lightning-bolt',
-                        device_class: 'energy',
-                        unit_of_measurement: 'Wh',
-                        state_class: 'total_increasing',
-                    },
-                    soil: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-soil',
-                        state_topic: '$this/soil',
-                        name: 'Soil level',
-                        icon: 'mdi:liquid-spot',
-                        device_class: 'enum',
-                        options: SOIL.options,
-                    },
-                    temp: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-temp',
-                        state_topic: '$this/temp',
-                        name: 'Temperature',
-                        icon: 'mdi:thermometer',
-                        device_class: 'enum',
-                        options: TEMP.options,
-                    },
-                    spin: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-spin',
-                        state_topic: '$this/spin',
-                        name: 'Spin',
-                        icon: 'mdi:autorenew',
-                        device_class: 'enum',
-                        options: SPIN.options,
-                    },
+                    status: laundry.status(STATUS.options),
+                    remaining_time: laundry.remainingTime({ icon: 'mdi:timer-outline' }),
+                    initial_time: laundry.initialTime({ icon: 'mdi:timer-sand' }),
+                    energy: laundry.energy(),
+                    soil: laundry.soilLevel(SOIL.options),
+                    temp: laundry.temperature(TEMP.options, { icon: 'mdi:thermometer' }),
+                    spin: laundry.spin(SPIN.options),
                     rinses_remaining: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-rinses_remaining',
-                        state_topic: '$this/rinses_remaining',
                         name: 'Rinses remaining',
                         icon: 'mdi:water-sync',
                         state_class: 'measurement',
                     },
-                    tub_clean_count: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-tub_clean_count',
-                        state_topic: '$this/tub_clean_count',
-                        name: 'Washes since drum clean',
-                        icon: 'mdi:washing-machine-alert',
-                        entity_category: 'diagnostic',
-                    },
-                    buzzer: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-buzzer',
-                        state_topic: '$this/buzzer',
-                        name: 'Buzzer',
-                        icon: 'mdi:volume-high',
-                        device_class: 'enum',
-                        options: BUZZER.options,
-                        entity_category: 'diagnostic',
-                    },
+                    tub_clean_count: laundry.tubCleanCount(),
+                    buzzer: laundry.buzzer(BUZZER.options),
                     lid_lock: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-lid_lock',
-                        state_topic: '$this/lid_lock',
                         name: 'Lid lock',
                         icon: 'mdi:lock',
                         entity_category: 'diagnostic',
                     },
-                },
+                }),
             }),
         )
     }
