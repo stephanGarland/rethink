@@ -1,8 +1,9 @@
 import { tombstone, type ComponentInfo, type Tombstone } from '../homeassistant'
-import { allowExtendedType } from '@/util/casting'
 import { Enum } from '@/util/enum'
 import { DOSES, SMART_COURSES } from './washer_common'
 import Y_V8_Y___W_B32QEUK, { COURSES as V8_COURSES } from './Y_V8_Y___W.B32QEUK'
+import { entities } from './entities'
+import { laundry } from './laundry_entities'
 
 // The ezDispense ("auto dosing") variant of Y_V8_Y___W.B32QEUK. The LG cloud decodes the two models'
 // status records with one parser - frames sent to both as simulated appliances came back identical,
@@ -33,38 +34,17 @@ export default class Device extends Y_V8_Y___W_B32QEUK {
 
     // Called from the base constructor: this.dispense does not exist yet, so only constants here
     protected components(): Record<string, ComponentInfo | Tombstone> {
-        return allowExtendedType({
+        return entities({
             ...super.components(),
             downloaded_program: {
                 platform: 'sensor',
-                unique_id: '$deviceid-downloaded_program',
-                state_topic: '$this/downloaded_program',
                 name: 'Downloaded program',
                 icon: 'mdi:download',
             },
-            detergent: {
-                platform: 'sensor',
-                unique_id: '$deviceid-detergent',
-                state_topic: '$this/detergent',
-                name: 'Detergent dose',
-                icon: 'mdi:cup',
-                device_class: 'enum',
-                options: DOSES.options,
-            },
-            softener: {
-                platform: 'sensor',
-                unique_id: '$deviceid-softener',
-                state_topic: '$this/softener',
-                name: 'Softener dose',
-                icon: 'mdi:cup-outline',
-                device_class: 'enum',
-                options: DOSES.options,
-            },
+            detergent: laundry.detergent(DOSES.options),
+            softener: laundry.softener(DOSES.options),
             ezdispense_detergent: {
                 platform: 'number',
-                unique_id: '$deviceid-ezdispense_detergent',
-                state_topic: '$this/ezdispense_detergent',
-                command_topic: '$this/ezdispense_detergent/set',
                 name: 'ezDispense detergent amount',
                 icon: 'mdi:cup',
                 unit_of_measurement: 'mL',
@@ -76,9 +56,6 @@ export default class Device extends Y_V8_Y___W_B32QEUK {
             },
             ezdispense_softener: {
                 platform: 'number',
-                unique_id: '$deviceid-ezdispense_softener',
-                state_topic: '$this/ezdispense_softener',
-                command_topic: '$this/ezdispense_softener/set',
                 name: 'ezDispense softener amount',
                 icon: 'mdi:cup-outline',
                 unit_of_measurement: 'mL',
@@ -90,8 +67,6 @@ export default class Device extends Y_V8_Y___W_B32QEUK {
             },
             dispenser_drawer: {
                 platform: 'binary_sensor',
-                unique_id: '$deviceid-dispenser_drawer',
-                state_topic: '$this/dispenser_drawer',
                 name: 'Dispenser drawer',
                 device_class: 'opening',
             },
