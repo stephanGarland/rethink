@@ -2,6 +2,7 @@ import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import { CATEGORIES, SHARED_MODULES, drivers, factoryOf, findDriver } from '@/cloud/registry'
+import { README, renderReadme } from '@/tools/device-list'
 import HADevice from '@/cloud/devices/base'
 
 describe('driver registry', () => {
@@ -39,5 +40,10 @@ describe('driver registry', () => {
         assert.ok(findDriver('thinq1', 'RAC_056905_WW'))
         assert.equal(findDriver('thinq2', 'WTDN3'), undefined)
         assert.equal(findDriver('thinq2', 'NOT_A_MODEL'), undefined)
+    })
+
+    it('keeps the README device list in sync with the drivers', async () => {
+        const current = fs.readFileSync(README, 'utf8')
+        assert.ok((await renderReadme(current)) === current, 'README.md is out of date: run `npm run device-list`')
     })
 })

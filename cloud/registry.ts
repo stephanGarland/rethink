@@ -1,6 +1,7 @@
 // Driver registry. Every module in cloud/devices/ that exports `models` is a driver: its default
 // export handles the ThinQ model IDs listed there. Adding a driver therefore touches only its own
-// file (plus its test), never a shared list.
+// file (plus its test), never a shared list. The README's device list is generated from the same
+// entries (`npm run device-list`).
 
 import fs from 'node:fs'
 import path from 'node:path'

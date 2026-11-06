@@ -29,6 +29,7 @@
     "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json && cp -r html dist/ && sh scripts/write-version.sh",
     "check": "tsc --noEmit",
     "dev": "tsx rethink-cloud.ts",
+    "device-list": "tsx tools/device-list.ts",
     "start": "node dist/rethink-cloud.js",
     "format": "npx prettier . --write",
     "postinstall": "node scripts/install-git-hooks.mjs",
