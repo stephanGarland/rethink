@@ -14,6 +14,7 @@ import {
     TemperatureUnit,
     unpackStatus,
 } from './fridge_common'
+import { type ModelEntry } from '../registry'
 
 const STATUS_LENGTH = 17
 
@@ -157,3 +158,12 @@ export default class Device extends AABBDevice {
         }
     }
 }
+
+export const models: ModelEntry[] = [
+    {
+        category: 'Fridges',
+        ids: ['2REB1GLVB1__2'],
+        appliance: 'GSB470BASZ, American Style Side by Side Refrigerator',
+        support: '🫤 preliminary support',
+    },
+]

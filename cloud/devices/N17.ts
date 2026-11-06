@@ -13,6 +13,7 @@ import {
     APPLIANCE_STATES,
     unpackStatus,
 } from './dishwasher_common'
+import { type ModelEntry } from '../registry'
 
 // LG LDNPQ445S dishwasher, reporting modelName "N17" (deviceType 204, BEKEN_BK7234).
 //
@@ -638,3 +639,13 @@ export default class Device extends AABBDevice {
         this.publishProperty('status_indicator_light', this.settings.statusIndicatorLight ? 'ON' : 'OFF')
     }
 }
+
+export const models: ModelEntry[] = [
+    // LG LDNPQ445S dishwasher (BK7234 platform, reports the board id "N17")
+    {
+        category: 'Dishwashers',
+        ids: ['N17'],
+        appliance: 'LDNPQ445S',
+        support: '👍 mostly working',
+    },
+]

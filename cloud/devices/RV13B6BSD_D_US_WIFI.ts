@@ -5,6 +5,7 @@ import { type Metadata } from '../thinq'
 import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 // LG electric dryer — matched on modelId "RV13B6BSD_D_US_WIFI" (real-world nameplate DLEX3900B, product
 // code RV13B6JSD.ABLEEUS). AABB frames (buf = the AABB body, AA+len and checksum+BB already stripped)
@@ -259,3 +260,13 @@ export default class Device extends AABBDevice {
         // latter has no control on this physical model's panel at all).
     }
 }
+
+export const models: ModelEntry[] = [
+    // LG electric dryer
+    {
+        category: 'Dryers',
+        ids: ['RV13B6BSD_D_US_WIFI'],
+        appliance: 'DLEX3900B, Electric Dryer',
+        support: '👍 mostly working',
+    },
+]

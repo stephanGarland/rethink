@@ -5,6 +5,7 @@ import { type Metadata } from '../thinq'
 import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 // LG DLEX4200B electric dryer, matched on modelId "RV13D5JSD_D_US" (ThinQ2 deviceType 202).
 // The wire format is the same 29-byte AABB record family used by the RV13B6 dryers:
@@ -333,3 +334,13 @@ export default class Device extends AABBDevice {
         else if (!isOff || !this.publishCache.has('dry_completed')) this.publishProperty('dry_completed', 'OFF')
     }
 }
+
+export const models: ModelEntry[] = [
+    // LG DLEX4200B electric dryer
+    {
+        category: 'Dryers',
+        ids: ['RV13D5JSD_D_US'],
+        appliance: 'DLEX4200B, Electric Dryer',
+        support: '👍 mostly working, read-only',
+    },
+]

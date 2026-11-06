@@ -5,6 +5,7 @@ import { allowExtendedType } from '@/util/casting'
 import { Metadata } from '../thinq'
 import { Enum } from '@/util/enum'
 import { ERRORS, RINSES, SPINS, TEMPERATURES } from './washer_common'
+import { type ModelEntry } from '../registry'
 // LG F4J7TN1W (ThinQ Model ID WTWN3, deviceType 201): 8 kg front-load washer, TITAN2 platform,
 // ThinQ1 with the QCA4002 module (FwVer QC_Modem_1.2.80). Same 28-byte status layout as WTDN3
 // (F2J7HG1W) minus the dryer: byte 11 is undefined for this model. Field offsets and enum codes
@@ -368,3 +369,14 @@ export default class Device extends HADevice {
             this.thinq.send({ Cmd: 'Control', CmdOpt: 'Operation', Value: 'Start', Format: 'B64', Data: mqttValue })
     }
 }
+
+export const models: ModelEntry[] = [
+    // LG F4J7TN1W front-load washer (ThinQ1, QCA4002 module)
+    {
+        platform: 'thinq1',
+        category: 'Washing machines',
+        ids: ['WTWN3'],
+        appliance: 'F4J7TN1W Washing Machine',
+        support: '🫤 preliminary support',
+    },
+]

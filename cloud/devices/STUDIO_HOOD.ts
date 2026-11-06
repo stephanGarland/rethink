@@ -4,6 +4,7 @@ import { type Connection } from '../homeassistant'
 import { type Metadata } from '../thinq'
 import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
+import { type ModelEntry } from '../registry'
 
 // LG STUDIO_HOOD range hood (thinq2 deviceType 304).
 //
@@ -157,3 +158,12 @@ export default class Device extends AABBDevice {
         }
     }
 }
+
+export const models: ModelEntry[] = [
+    {
+        category: 'Range hoods',
+        ids: ['STUDIO_HOOD'],
+        appliance: 'HCED3015D, probably works with multiple models',
+        support: '👍 working',
+    },
+]

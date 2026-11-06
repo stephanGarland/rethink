@@ -6,6 +6,7 @@ import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { ERRORS, TEMPERATURES, SPINS, SOIL_LEVELS, RINSES, SMART_COURSES } from './washer_common'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 const STATUS_LENGTH = 39
 
@@ -651,3 +652,12 @@ export default class Device extends AABBDevice {
         }
     }
 }
+
+export const models: ModelEntry[] = [
+    {
+        category: 'Washing machines',
+        ids: ['Y_V8_Y___W.B32QEUK'],
+        appliance: 'FSR7A04PG, Front-Loading Washing Machine',
+        support: '👍 mostly working',
+    },
+]

@@ -6,6 +6,7 @@ import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { ERRORS, COURSES, TEMPERATURES, SPINS, SOIL_LEVELS, DOSES } from './washer_common'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 // Codes derived from modelJSON & observation of the LG app.
 const STATUS = Enum.of({
@@ -289,3 +290,13 @@ export default class Device extends AABBDevice {
         if (prop === 'start') this.send(Buffer.from('F024050100', 'hex'))
     }
 }
+
+export const models: ModelEntry[] = [
+    // LG F4WV710ATR front-load washer (Vivace V750 10.5kg), same layout as F_V8_Y plus detergent/softener dosing
+    {
+        category: 'Washing machines',
+        ids: ['F_VB_Y___W.B_2QEUK'],
+        appliance: 'F4WV710ATR, Front-Loading Washing Machine',
+        support: '🫤 preliminary support',
+    },
+]

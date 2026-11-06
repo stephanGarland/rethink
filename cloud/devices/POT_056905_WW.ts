@@ -6,6 +6,7 @@ import { allowExtendedType } from '@/util/casting'
 import * as TLV from '@/util/tlv'
 import HADevice from './base'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 const MODES = Enum.of({
     cool: 0,
@@ -164,3 +165,12 @@ export default class Device extends TLVDevice {
         return tlvArray.length >= 10 && tlvArray.some(({ t }) => t === 0x1f7)
     }
 }
+
+export const models: ModelEntry[] = [
+    {
+        category: 'Air conditioners',
+        ids: ['POT_056905_WW'],
+        appliance: 'LP1022FVSM, Portable Air Conditioner',
+        support: '👍 mostly working',
+    },
+]

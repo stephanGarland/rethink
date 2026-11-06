@@ -5,6 +5,7 @@ import { type Metadata } from '../thinq'
 import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 // LG front-load washer — matched on modelId "F3L7CYK5W_US_WIFI". Shares the AABB record layout of the
 // F3L2CYU__ sibling (25-byte record led by a 0x18 marker) but is NOT an alias of it:
@@ -441,3 +442,13 @@ export default class Device extends AABBDevice {
         //     without a matching cloud field.
     }
 }
+
+export const models: ModelEntry[] = [
+    // LG front-load washer, same record layout as F3L2CYU__ but a different course table and two extra option bits
+    {
+        category: 'Washing machines',
+        ids: ['F3L7CYK5W_US_WIFI'],
+        appliance: '(model name unknown), Front-Load Washing Machine',
+        support: '👍 mostly working',
+    },
+]

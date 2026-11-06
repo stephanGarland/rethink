@@ -5,6 +5,7 @@ import { allowExtendedType } from '@/util/casting'
 import HADevice from './base'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 /*
  * LG Styler (S5BBP), ThinQ model ST_B_E4H01Y_APL, deviceType 203.
@@ -734,3 +735,12 @@ export default class Device extends AABBDevice {
         }
     }
 }
+
+export const models: ModelEntry[] = [
+    {
+        category: 'Stylers',
+        ids: ['ST_B_E4H01Y_APL'],
+        appliance: 'S5BBP',
+        support: '👍 mostly working',
+    },
+]

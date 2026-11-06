@@ -12,8 +12,11 @@ please state it in the code/PR comments.
 - **Device name in README.md.** Any new device should be listed in README.md by its
   "marketing" model name (`WKEX200HBA` instead of `WTL_FXU_BDV_NA_01`), grouped by device
   type. The thinq model name may optionally follow.
+- **Registration.** A driver registers itself: its module in `cloud/devices/` exports
+  `models`, listing the ThinQ model IDs it handles (see `cloud/registry.ts`). Don't edit
+  `ha_bridge.ts` to add a device.
 - **Aliasing.** If a different protocol handler matches your device exactly, simply add
-  an alias in `ha_bridge.ts`. Otherwise, create a new handler. Refactoring shared parts
+  an entry to that driver's `models`. Otherwise, create a new handler. Refactoring shared parts
   is a subjective decision, no hard rules here.
 - **English names only.** This covers all entity names/values exposed to HomeAssistant.
 - **Consistency.** When introducing an entity, check if other similar devices already provide

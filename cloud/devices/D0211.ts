@@ -13,6 +13,7 @@ import {
     APPLIANCE_STATES,
     unpackStatus,
 } from './dishwasher_common'
+import { type ModelEntry } from '../registry'
 
 // LG D0211 ThinQ dishwasher (deviceType 204) — DB365TXS / DBC435TSL.AASQEIS.
 //
@@ -322,3 +323,20 @@ export default class Device extends AABBDevice {
         console.warn(`D0211: unsupported property ${prop} (value ${mqttValue})`)
     }
 }
+
+export const models: ModelEntry[] = [
+    // LG ThinQ dishwasher (deviceType 204), DB365TXS / DBC435TSL.AASQEIS
+    {
+        category: 'Dishwashers',
+        ids: ['D0211'],
+        appliance: 'DB365TXS / DBC435TSL.AASQEIS, Built-in Dishwasher',
+        support: '🫤 preliminary support, read-only',
+    },
+    // LG XD3A25MB dishwasher (deviceType 204), same 0x18-byte records, checked against bridged LG cloud state
+    {
+        category: 'Dishwashers',
+        ids: ['D2211'],
+        appliance: 'XD3A25MB, Dishwasher',
+        support: '🫤 preliminary support, read-only',
+    },
+]

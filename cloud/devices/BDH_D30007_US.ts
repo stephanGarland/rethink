@@ -5,6 +5,7 @@ import { type Metadata } from '../thinq'
 import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 // LG heat-pump dryer, matched on modelId "BDH_D30007_US" (thinq2 deviceType 202), sold as DLHC5502V.
 //
@@ -464,3 +465,13 @@ export default class Device extends AABBDevice {
         // no doorClose, where the matching washer's carries both.
     }
 }
+
+export const models: ModelEntry[] = [
+    // LG DLHC5502V heat-pump dryer, long 0xFF-escaped AABB framing with 42-byte records
+    {
+        category: 'Dryers',
+        ids: ['BDH_D30007_US'],
+        appliance: 'DLHC5502V, Heat-Pump Dryer',
+        support: '👍 mostly working, read-only',
+    },
+]

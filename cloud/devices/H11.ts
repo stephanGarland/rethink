@@ -13,6 +13,7 @@ import {
     APPLIANCE_STATES,
     unpackStatus,
 } from './dishwasher_common'
+import { type ModelEntry } from '../registry'
 
 // LG H11 dishwasher (modelId "H11"). AABBDevice removes AA/length and checksum/BB
 // before passing the inner body to processAABB. Incoming bodies begin with 0x32:
@@ -736,3 +737,12 @@ export default class Device extends AABBDevice {
         this.publishProperty('extra_rinse', extraRinse <= 3 ? extraRinse : undefined)
     }
 }
+
+export const models: ModelEntry[] = [
+    {
+        category: 'Dishwashers',
+        ids: ['H11'],
+        appliance: 'DUE2BG.AKOR Dishwasher',
+        support: '👍 mostly working',
+    },
+]

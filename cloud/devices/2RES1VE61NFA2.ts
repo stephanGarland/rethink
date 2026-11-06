@@ -14,6 +14,7 @@ import {
     TemperatureUnit,
     unpackStatus,
 } from './fridge_common'
+import { type ModelEntry } from '../registry'
 
 const STATUS_LENGTH = 27
 
@@ -128,3 +129,12 @@ export default class Device extends AABBDevice {
         }
     }
 }
+
+export const models: ModelEntry[] = [
+    {
+        category: 'Fridges',
+        ids: ['2RES1VE61NFA2'],
+        appliance: 'GSJV70PZTE, Side by Side Refrigerator',
+        support: '🫤 preliminary support',
+    },
+]

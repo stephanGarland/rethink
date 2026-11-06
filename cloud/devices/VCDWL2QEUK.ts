@@ -6,6 +6,7 @@ import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
 import { RINSES, SPINS, TEMPERATURES } from './washer_common'
+import { type ModelEntry } from '../registry'
 
 // LG F4X7511TWS front-load washer — matched on modelId "VCDWL2QEUK". Unlike the 80-byte
 // single-frame F-class washers, this model emits several AABB frame types, discriminated by inner[3]
@@ -427,3 +428,13 @@ export default class Device extends AABBDevice {
         this.publishProperty('tub_clean_count', rec[TUB_CLEAN_OFFSET])
     }
 }
+
+export const models: ModelEntry[] = [
+    // LG F4X7511TWS front-load washer (matched on modelId VCDWL2QEUK)
+    {
+        category: 'Washing machines',
+        ids: ['VCDWL2QEUK'],
+        appliance: 'F4X7511TWS, Front-Load Washing Machine',
+        support: '👍 mostly working',
+    },
+]

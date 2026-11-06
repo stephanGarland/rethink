@@ -3,6 +3,7 @@ import { allowExtendedType } from '@/util/casting'
 import { Enum } from '@/util/enum'
 import { DOSES, SMART_COURSES } from './washer_common'
 import Y_V8_Y___W_B32QEUK, { COURSES as V8_COURSES } from './Y_V8_Y___W.B32QEUK'
+import { type ModelEntry } from '../registry'
 
 // The ezDispense ("auto dosing") variant of Y_V8_Y___W.B32QEUK. The LG cloud decodes the two models'
 // status records with one parser - frames sent to both as simulated appliances came back identical,
@@ -142,3 +143,13 @@ export default class Device extends Y_V8_Y___W_B32QEUK {
         super.setProperty(prop, mqttValue)
     }
 }
+
+export const models: ModelEntry[] = [
+    // LG F14R76BSTA front-loading washer
+    {
+        category: 'Washing machines',
+        ids: ['Y_VB_Y___W.B32QEUK'],
+        appliance: 'F14R76BSTA and F4W1175YW Washing Machines',
+        support: '👍 mostly working',
+    },
+]

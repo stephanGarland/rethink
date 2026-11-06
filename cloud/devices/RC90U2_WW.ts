@@ -5,6 +5,7 @@ import { type Metadata } from '../thinq'
 import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 // LG RC9DN9029 (ThinQ Model ID RC90U2_WW, deviceType 202): 9 kg DUAL Inverter heat pump dryer with
 // Eco Hybrid, EU/Nordic market. ThinQ2 with the QCOM_QCA4010 module (clip_hna_v1.9.230, protocolVer
@@ -332,3 +333,27 @@ export default class Device extends AABBDevice {
         this.publishProperty('hand_iron', option1 & OPT1_HAND_IRON ? 'ON' : 'OFF')
     }
 }
+
+export const models: ModelEntry[] = [
+    // LG RC9DN9029 heat pump dryer (EU), same AABB dialect as the two dryers above but with the 25-byte EU record layout
+    {
+        category: 'Dryers',
+        ids: ['RC90U2_WW'],
+        appliance: 'RC9DN9029 Heat Pump Dryer',
+        support: '🫤 preliminary support',
+    },
+    // LG RC91V9EV2Q heat pump dryer, same records
+    {
+        category: 'Dryers',
+        ids: ['RC90V9_WW'],
+        appliance: 'RC91V9EV2Q, Heat Pump Dryer',
+        support: '🫤 preliminary support',
+    },
+    // LG DVH9-09B heat pump dryer (AU), same records, checked against bridged LG cloud state
+    {
+        category: 'Dryers',
+        ids: ['RC90V9_AUS'],
+        appliance: 'DVH9-09B, Heat Pump Dryer',
+        support: '🫤 preliminary support',
+    },
+]

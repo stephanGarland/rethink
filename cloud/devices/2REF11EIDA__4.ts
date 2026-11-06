@@ -12,6 +12,7 @@ import {
     TemperatureUnit,
 } from './fridge_common'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 const FLEX_OPTIONS = Enum.of({
     'Chilled Wine': 1,
@@ -158,3 +159,12 @@ export default class Device extends AABBDevice {
         }
     }
 }
+
+export const models: ModelEntry[] = [
+    {
+        category: 'Fridges',
+        ids: ['2REF11EIDA__4'],
+        appliance: 'LF28H8330S, Standard-Depth 4-Door French Door Refrigerator',
+        support: '🫤 preliminary support',
+    },
+]

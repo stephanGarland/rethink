@@ -5,6 +5,7 @@ import { type Metadata } from '../thinq'
 import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 // LG oven reporting modelName "WFV474PGV" (deviceType 301, QCOM_QCA4010).
 //
@@ -749,3 +750,13 @@ export default class Device extends AABBDevice {
         return mode
     }
 }
+
+export const models: ModelEntry[] = [
+    // LG double oven/range
+    {
+        category: 'Ovens and ranges',
+        ids: ['WFV474PGV'],
+        appliance: '(model name unknown), Double Oven/Range',
+        support: '🫤 preliminary status, timer, cancel, and constrained remote-start support',
+    },
+]

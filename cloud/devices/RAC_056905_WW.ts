@@ -7,6 +7,7 @@ import * as TLV from '@/util/tlv'
 import { racAirTemp, racPipeTemp } from '@/util/ac_tables'
 import HADevice from './base'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 // exported for the benefit of RAC_056905_WW_T1
 export const MODES = Enum.of({
@@ -1510,3 +1511,16 @@ export default class Device extends TLVDevice {
         }
     }
 }
+
+export const models: ModelEntry[] = [
+    {
+        category: 'Air conditioners',
+        ids: [
+            'RAC_056905_WW',
+            'RAC_0B0001_WW', // a different European variant (deviceType 401, RTK_RTL8720cm), same TLV handler
+        ],
+        appliance: 'LG DualCool family wall-mounted IDUs',
+        support:
+            "💎 high level of support. What's missing are mostly some features of higher-end models and more diagnostic coverage",
+    },
+]

@@ -5,6 +5,7 @@ import { type Metadata } from '../thinq'
 import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 // LG over-the-range microwave/hood, marketing model MVEL2033F, matched on modelId "WMVEL2137"
 // (thinq2 deviceType 302).
@@ -380,3 +381,12 @@ export default class Device extends AABBDevice {
 function seconds(rec: Buffer, offset: number): number {
     return rec[offset] * 60 + rec[offset + 1]
 }
+
+export const models: ModelEntry[] = [
+    {
+        category: 'Microwave ovens',
+        ids: ['WMVEL2137'],
+        appliance: 'MVEL2033F, Over-the-Range Microwave',
+        support: '👍 mostly working, with vent fan and lamp control',
+    },
+]

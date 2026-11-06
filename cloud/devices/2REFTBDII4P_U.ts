@@ -12,6 +12,7 @@ import {
     fridgeRange,
     type TemperatureUnit,
 } from './fridge_common'
+import { type ModelEntry } from '../registry'
 
 // 2REFTBDII4P_U - 68-byte AABB refrigerator status record.
 //
@@ -234,3 +235,12 @@ export default class Device extends AABBDevice {
         }
     }
 }
+
+export const models: ModelEntry[] = [
+    {
+        category: 'Fridges',
+        ids: ['2REFTBDII4P_U'],
+        appliance: 'GF-L500MBL',
+        support: '🫤 preliminary support',
+    },
+]

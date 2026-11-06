@@ -12,6 +12,7 @@ import {
     TemperatureUnit,
 } from './fridge_common'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 const STATUS_LENGTH = 68
 
@@ -221,3 +222,12 @@ export default class Device extends AABBDevice {
         }
     }
 }
+
+export const models: ModelEntry[] = [
+    {
+        category: 'Fridges',
+        ids: ['2REFT1DIC4P_U'],
+        appliance: 'GF-V700BSLC, InstaView Craft Ice French Door Refrigerator',
+        support: '🫤 preliminary support',
+    },
+]

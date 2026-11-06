@@ -5,6 +5,7 @@ import { type Metadata } from '../thinq'
 import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 // LG electric dryer — matched on modelId "RV13B6ES_D_US_WIFI". Frame layout is identical to its close
 // relative RV13B6BSD_D_US_WIFI (see that file): AABB frames (buf = the AABB body, AA+len and
@@ -339,3 +340,13 @@ export default class Device extends AABBDevice {
         // button press would, with no distinguishing byte found.
     }
 }
+
+export const models: ModelEntry[] = [
+    // LG electric dryer, same frame layout as RV13B6BSD but Wrinkle Care sits in a different bitfield
+    {
+        category: 'Dryers',
+        ids: ['RV13B6ES_D_US_WIFI'],
+        appliance: '(model name unknown), Electric Dryer',
+        support: '👍 mostly working',
+    },
+]

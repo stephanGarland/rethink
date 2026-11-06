@@ -5,6 +5,7 @@ import { type Metadata } from '../thinq'
 import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 // LG LREL6323S electric range, reporting modelName "WLREL6323S" (deviceType 301).
 //
@@ -144,3 +145,13 @@ export default class Device extends AABBDevice {
         return mode
     }
 }
+
+export const models: ModelEntry[] = [
+    // LG LREL6323S single-oven electric range
+    {
+        category: 'Ovens and ranges',
+        ids: ['WLREL6323S'],
+        appliance: 'LREL6323S, Electric Range',
+        support: '🫤 preliminary read-only oven and cooktop support',
+    },
+]

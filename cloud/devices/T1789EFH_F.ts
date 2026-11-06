@@ -5,6 +5,7 @@ import { type Metadata } from '../thinq'
 import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 // LG WT7300CW top-load washer — matched on modelId "T1789EFH_F". AABB frames (buf = the AABB body,
 // AA+len and checksum+BB already stripped) start with 0x20 and are discriminated by buf[1]:
@@ -559,3 +560,13 @@ export default class Device extends AABBDevice {
         this.processCommonStatus(buf, 0x20, 27, this.processRecord)
     }
 }
+
+export const models: ModelEntry[] = [
+    // LG WT7300CW top-loading washer
+    {
+        category: 'Washing machines',
+        ids: ['T1789EFH_F'],
+        appliance: 'WT7300CW, Top-Load Washing Machine',
+        support: '👍 mostly working',
+    },
+]
