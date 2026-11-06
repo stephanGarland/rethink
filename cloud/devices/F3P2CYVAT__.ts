@@ -250,7 +250,11 @@ export default class Device extends AABBDevice {
                         name: 'Course',
                         icon: 'mdi:pin-outline',
                         device_class: 'enum',
-                        options: COURSE.options,
+                        // a downloaded course is published with its base course, see processAABB()
+                        options: [
+                            ...COURSE.options,
+                            ...COURSE.options.filter((c) => c !== 'Downloaded').map((c) => `Downloaded (${c})`),
+                        ],
                     },
                     remaining_time: {
                         platform: 'sensor',

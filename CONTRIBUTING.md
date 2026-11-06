@@ -54,6 +54,11 @@ please state it in the code/PR comments.
   be accompanied with a test as well.
 - **Only non-trivial tests.** For example, checking that the list of exposed entities matches
   an expected list is an exercise in copy-pasting, it doesn't introduce any value.
+- **Some rules are checked for you.** Every device test's `MockHAConnection` verifies the
+  discovery config (no `default_entity_id`, unique `$deviceid-…` IDs, `$this/` topics, enum
+  sensors with `options`, English names) and that enum and select states are among their
+  options. `tests/cloud/driver_conventions.test.ts` requires a test file per driver and the
+  same capitalization of an entity name across drivers.
 - **Don't test common logic in every device.** If your device publishes enumerated values via
   `Enum.map`, don't bother asserting that mismatched values convert to 'None' - this kind of test
   would be needlessly duplicated in all devices.
