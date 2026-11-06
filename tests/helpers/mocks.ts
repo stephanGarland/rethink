@@ -9,6 +9,7 @@ import { Device as Thinq1Device } from '@/cloud/thinq1/device'
 import type { Connection as Thinq1Connection } from '@/cloud/thinq1/connection'
 import type { Broker } from '@/cloud/mqtt-broker'
 import assert from 'node:assert/strict'
+import { discoveryProblems, propertyProblem } from './conventions'
 
 // Suppress device logging noise during tests. Imported for side effect.
 setFilter(() => false)
@@ -48,6 +49,11 @@ export class MockHAConnection extends EventEmitter {
 
     publishConfig(id: string, config: DeviceDiscovery) {
         if (!this.devices[id]) this.devices[id] = { properties: {} }
+        assert.deepEqual(
+            discoveryProblems(config),
+            [],
+            `${config.device.model}: discovery config breaks CONTRIBUTING.md`,
+        )
         this.devices[id].config = config
     }
 
@@ -57,6 +63,9 @@ export class MockHAConnection extends EventEmitter {
         // As in Connection.publishProperty. Numbers are deliberately left as numbers, so that tests
         // can assert them without stringifying every expectation.
         if (value === undefined) value = 'None'
+
+        const problem = propertyProblem(this.devices[id].config, property, value)
+        assert.equal(problem, undefined, `${property}: ${problem}`)
 
         if (property === 'availability') {
             assert.equal(typeof value, 'string')
