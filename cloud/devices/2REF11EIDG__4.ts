@@ -12,6 +12,7 @@ import {
     unpackStatus,
     TemperatureUnit,
 } from './fridge_common'
+import { type ModelEntry } from '../registry'
 
 // LG LRFXC2606S — 26 cu. ft. 3-door French door refrigerator with in-door ice and water.
 // ThinQ model 2REF11EIDG__4 (model JSON family VF_GOOD_G). Same 68-byte AABB status block as
@@ -247,3 +248,12 @@ export default class Device extends AABBDevice {
         }
     }
 }
+
+export const models: ModelEntry[] = [
+    {
+        category: 'Fridges',
+        ids: ['2REF11EIDG__4'],
+        appliance: 'LRFXC2606S / LRFXS3106S, 3-Door French Door Refrigerator',
+        support: '👍 setpoints, Ice Plus, Sabbath, Smart Learner, filters, water use',
+    },
+]

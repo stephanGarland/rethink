@@ -6,6 +6,7 @@ import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { packStatus, type Status, type TemperatureUnit, unpackStatus } from './fridge_common'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 // 2REF11EII__M2 - LG ThinQ Refrigerator
 //
@@ -350,3 +351,12 @@ export default class Device extends AABBDevice {
         return Buffer.concat([Buffer.from('F017', 'hex'), body])
     }
 }
+
+export const models: ModelEntry[] = [
+    {
+        category: 'Fridges',
+        ids: ['2REF11EII__M2'],
+        appliance: 'LMXS28626S, 4-Door French Door Refrigerator',
+        support: '🫤 preliminary support',
+    },
+]

@@ -13,6 +13,7 @@ import {
     unpackStatus,
     TemperatureUnit,
 } from './fridge_common'
+import { type ModelEntry } from '../registry'
 
 // LG GBBSJ2CCEP (EU bottom-freezer), ThinQ model 2REBGLUB_2P__, BK7234 modem. 96-byte AABB status
 // block in the common fridge layout (10EB initial / 10EC previous+current). The F017 command is the
@@ -282,3 +283,13 @@ export default class Device extends AABBDevice {
         }
     }
 }
+
+export const models: ModelEntry[] = [
+    // LG GBBSJ2CCEP bottom-freezer (EU), BK7234 modem
+    {
+        category: 'Fridges',
+        ids: ['2REBGLUB_2P__'],
+        appliance: 'GBBSJ2CCEP, Bottom Freezer Refrigerator',
+        support: '👍 setpoints, modes, door usage, energy',
+    },
+]

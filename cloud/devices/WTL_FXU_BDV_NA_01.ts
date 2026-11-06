@@ -5,6 +5,7 @@ import { type Metadata } from '../thinq'
 import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 const WASHER_UNIT = 0x33
 const DRYER_UNIT = 0x34
@@ -1060,3 +1061,13 @@ export default class Device extends AABBDevice {
         this.publishProperty('dryer/remote_maintain', block[80] & 0x02 ? 'ON' : 'OFF')
     }
 }
+
+export const models: ModelEntry[] = [
+    // LG WashTower
+    {
+        category: 'WashTowers (combined washer+dryer)',
+        ids: ['WTL_FXU_BDV_NA_01'],
+        appliance: 'WKEX200HBA, WashTower',
+        support: '👍 mostly working',
+    },
+]

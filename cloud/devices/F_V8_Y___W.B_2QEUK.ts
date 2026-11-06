@@ -6,6 +6,7 @@ import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { ERRORS, COURSES, TEMPERATURES, SPINS, SOIL_LEVELS } from './washer_common'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 // Codes derived from modelJSON & observation of the LG app.
 const STATUS = Enum.of({
@@ -276,3 +277,40 @@ export default class Device extends AABBDevice {
         if (prop === 'start') this.send(Buffer.from('F024050100', 'hex'))
     }
 }
+
+export const models: ModelEntry[] = [
+    // NOTE: we reuse F_V8_Y___W_B_2QEUK as the models appear to be compatible
+    {
+        category: 'Washing machines',
+        ids: ['F_V7_Y___W.B_2QEUK'],
+        appliance: 'F4WV508S2E, Front-Loading Washing Machine',
+        support: '🫤 preliminary support',
+    },
+    {
+        category: 'Washing machines',
+        ids: ['F_V8_Y___W.B_2QEUK'],
+        appliance: 'F4WV709P1E, Front-Loading Washing Machine',
+        support: '🫤 preliminary support',
+    },
+    // NOTE: we reuse F_V8_Y___W_B_2QEUK as the models appear to be compatible
+    {
+        category: 'Washing machines',
+        ids: ['F_V__Y___W.B_2QEUK'],
+        appliance: 'TW4V9RW9W',
+        support: '🫤 preliminary support',
+    },
+    // LG WV9-1609B front-load washer (AU), status/course/temp/spin/times/cycles/locks checked against bridged LG cloud state and the panel
+    {
+        category: 'Washing machines',
+        ids: ['F_V__Y___W.B__QEUK'],
+        appliance: 'WV9-1609B, Front-Load Washing Machine',
+        support: '🫤 preliminary support',
+    },
+    // LG F2V5PS0W front-load washer - confirmed working, status/course/spin/temp/energy/remaining_time all decode correctly against a real unit
+    {
+        category: 'Washing machines',
+        ids: ['F_V7_Y___W.B__QEUK'],
+        appliance: 'F2V5PS0W, Front-Load Washing Machine',
+        support: '👍 mostly working',
+    },
+]

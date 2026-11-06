@@ -5,6 +5,7 @@ import { type Metadata } from '../thinq'
 import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 const STATUS = Enum.of({
     Off: 0x00,
@@ -166,3 +167,13 @@ export default class Device extends AABBDevice {
         }
     }
 }
+
+export const models: ModelEntry[] = [
+    // LG DLE7300WE dryer
+    {
+        category: 'Dryers',
+        ids: ['RV13U6AM8W_D_US_WIFI'],
+        appliance: 'DLE7300WE, Electric Dryer',
+        support: '🫤 preliminary support',
+    },
+]

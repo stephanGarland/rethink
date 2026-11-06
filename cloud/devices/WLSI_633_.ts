@@ -5,6 +5,7 @@ import { type Metadata } from '../thinq'
 import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 // LG slide-in induction range, marketing model LSIS6338FE, matched on modelId "WLSI_633_"
 // (thinq2 deviceType 301). LG's own modelJSON calls it "Studio IH". Read-only.
@@ -494,3 +495,12 @@ function temperature(rec: Buffer, offset: number, celsius: boolean): number | un
 function inCelsius(rec: Buffer): boolean {
     return rec[TEMPERATURE_UNIT_OFFSET] === TEMPERATURE_UNITS.unmap('°C')
 }
+
+export const models: ModelEntry[] = [
+    {
+        category: 'Ovens and ranges',
+        ids: ['WLSI_633_'],
+        appliance: 'LSIS6338FE, Slide-In Induction Range',
+        support: '👍 mostly working, read-only',
+    },
+]

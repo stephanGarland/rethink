@@ -13,6 +13,7 @@ import {
     APPLIANCE_STATES,
     unpackStatus,
 } from './dishwasher_common'
+import { type ModelEntry } from '../registry'
 
 // LG D30 ThinQ dishwasher (deviceType 204), sold as the LDT54788D (US).
 //
@@ -304,3 +305,12 @@ export default class Device extends AABBDevice {
         console.warn(`D30: unsupported property ${prop} (value ${mqttValue})`)
     }
 }
+
+export const models: ModelEntry[] = [
+    {
+        category: 'Dishwashers',
+        ids: ['D30'],
+        appliance: 'LDT54788D',
+        support: '👍 mostly working, read-only',
+    },
+]

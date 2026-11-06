@@ -6,6 +6,7 @@ import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { ERRORS, COURSES, TEMPERATURES, SPINS } from './washer_common'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 // Codes derived from modelJSON & observation of the LG app.
 const STATUS = Enum.of({
@@ -332,3 +333,19 @@ export default class Device extends AABBDevice {
         if (prop === 'start') this.send(Buffer.from('F024050100', 'hex'))
     }
 }
+
+export const models: ModelEntry[] = [
+    {
+        category: 'Washing machines',
+        ids: ['F_C__Y___W.A__QEUK'],
+        appliance: 'F4WV709P1, Front-Loading Washing Machine',
+        support: '👍 mostly working',
+    },
+    // LG WV5-1275W
+    {
+        category: 'Washing machines',
+        ids: ['F_V7_Y___W.A__QEUK'],
+        appliance: 'WV5-1275W, Front-Load Washing Machine',
+        support: '🫤 preliminary support',
+    },
+]

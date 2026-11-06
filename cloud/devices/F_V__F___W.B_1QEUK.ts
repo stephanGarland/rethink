@@ -6,6 +6,7 @@ import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { ERRORS, COURSES, TEMPERATURES, SPINS, DRYING_MODES } from './washer_common'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 // Codes derived from modelJSON & observation of the LG app.
 const STATUS = Enum.of({
@@ -219,3 +220,15 @@ export default class Device extends AABBDevice {
         if (prop === 'start') this.send(Buffer.from('F024050100', 'hex'))
     }
 }
+
+export const models: ModelEntry[] = [
+    {
+        category: 'Washing machines',
+        ids: [
+            'F_V__F___W.B_1QEUK',
+            'F_VA_F___W.B__QEUK', // FV1413H2BA front-load washer SoftAP model (deviceType 201)
+        ],
+        appliance: 'FV1413H2B / FV1413H2BA, Washing Machine',
+        support: '👍 mostly working',
+    },
+]

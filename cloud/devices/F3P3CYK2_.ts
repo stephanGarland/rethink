@@ -5,6 +5,7 @@ import { type Metadata } from '../thinq'
 import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 // LG WM4200HBA front-load washer, matched on modelId "F3P3CYK2_" (thinq2 deviceType 201).
 //
@@ -382,3 +383,13 @@ export default class Device extends AABBDevice {
         )
     }
 }
+
+export const models: ModelEntry[] = [
+    // LG WM4200HBA front-load washer, 44-byte AABB records
+    {
+        category: 'Washing machines',
+        ids: ['F3P3CYK2_'],
+        appliance: 'WM4200HBA, Front-Load Washing Machine',
+        support: '👍 mostly working',
+    },
+]

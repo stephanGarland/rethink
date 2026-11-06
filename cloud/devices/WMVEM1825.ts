@@ -5,6 +5,7 @@ import { type Metadata } from '../thinq'
 import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 const STATUS = Enum.of({
     Idle: 0x00,
@@ -168,3 +169,12 @@ export default class Device extends AABBDevice {
         }
     }
 }
+
+export const models: ModelEntry[] = [
+    {
+        category: 'Microwave ovens',
+        ids: ['WMVEM1825'],
+        appliance: 'MVEM1825D/F, Smart Over-the-Range Microwave',
+        support: '👍 mostly working',
+    },
+]

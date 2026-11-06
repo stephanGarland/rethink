@@ -5,6 +5,7 @@ import { allowExtendedType } from '@/util/casting'
 import { type Metadata } from '../thinq'
 import { Enum } from '@/util/enum'
 import { FAN_MODES, MODES, SWING_H_MODES, SWING_MODES } from './RAC_056905_WW'
+import { type ModelEntry } from '../registry'
 
 type Status = Record<string, string>
 
@@ -152,3 +153,14 @@ export default class Device extends HADevice {
         }
     }
 }
+
+export const models: ModelEntry[] = [
+    // QCA4002 module, 2.6.7_RTOS_3K firmware: same model id as the TLV variant, but registers over ThinQ1 (issue #70)
+    {
+        platform: 'thinq1',
+        category: 'Air conditioners',
+        ids: ['RAC_056905_WW'],
+        appliance: 'WH09SKN-18, DualCool IDU (QCA4002)',
+        support: '👍 mostly working',
+    },
+]

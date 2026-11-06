@@ -5,6 +5,7 @@ import { type Metadata } from '../thinq'
 import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 // LG WT21BWV6 top-load washer, matched on modelId "TLVE5BB" (thinq2 deviceType 201).
 //
@@ -246,3 +247,13 @@ export default class Device extends AABBDevice {
         this.publishProperty('lid_lock', rec[LID_LOCK_OFFSET] !== 0 ? 'ON' : 'OFF')
     }
 }
+
+export const models: ModelEntry[] = [
+    // LG WT21BWV6 top-load washer, long 0xFF-escaped AABB framing with 50-byte records
+    {
+        category: 'Washing machines',
+        ids: ['TLVE5BB'],
+        appliance: 'WT21BWV6, Top-Load Washing Machine',
+        support: '🫤 preliminary, read-only',
+    },
+]

@@ -5,6 +5,7 @@ import { allowExtendedType } from '@/util/casting'
 import { Metadata } from '../thinq'
 import { ERRORS, COURSES, TEMPERATURES, SPINS, DRYING_MODES } from './washer_common'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 // copied from the former shared washer_common table, to be validated.
 export const STATUS = Enum.of({
@@ -211,3 +212,13 @@ export default class Device extends HADevice {
             this.thinq.send({ Cmd: 'Control', CmdOpt: 'Operation', Value: 'Start', Format: 'B64', Data: mqttValue })
     }
 }
+
+export const models: ModelEntry[] = [
+    {
+        platform: 'thinq1',
+        category: 'Washing machines',
+        ids: ['WTDN3'],
+        appliance: 'F2J7HG1W, Washing Machine',
+        support: '👍 mostly working',
+    },
+]

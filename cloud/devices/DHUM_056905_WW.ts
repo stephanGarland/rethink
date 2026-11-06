@@ -6,6 +6,7 @@ import { allowExtendedType } from '@/util/casting'
 import * as TLV from '@/util/tlv'
 import HADevice from './base'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 /**
  * TLV tags present in capability (0xA7/0x01) packets — store during the caps query phase
@@ -406,3 +407,12 @@ export default class Device extends TLVDevice {
         this.thinq.send('setMaskingInfo', 0, { blacklist_tlv: '1200' })
     }
 }
+
+export const models: ModelEntry[] = [
+    {
+        category: 'Dehumidifiers',
+        ids: ['DHUM_056905_WW'],
+        appliance: 'MD19GQGE0, Smart Dehumidifier',
+        support: '👍 mostly working',
+    },
+]

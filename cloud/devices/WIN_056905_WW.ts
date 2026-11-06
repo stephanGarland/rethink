@@ -6,6 +6,7 @@ import { allowExtendedType } from '@/util/casting'
 import * as TLV from '@/util/tlv'
 import HADevice from './base'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 const FAN_MODES = Enum.of({
     low: 2,
@@ -146,3 +147,12 @@ export default class Device extends TLVDevice {
         return tlvArray.length >= 10 && tlvArray.some(({ t, v }) => t === 0x1f7)
     }
 }
+
+export const models: ModelEntry[] = [
+    {
+        category: 'Air conditioners',
+        ids: ['WIN_056905_WW'],
+        appliance: 'LW1822HRSM, Smart Window Air Conditioner',
+        support: '👍 mostly working',
+    },
+]

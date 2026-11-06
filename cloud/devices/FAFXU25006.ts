@@ -5,6 +5,7 @@ import { type Metadata } from '../thinq'
 import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
+import { type ModelEntry } from '../registry'
 
 // LG front-load washer, matched on modelId "FAFXU25006" (thinq2 deviceType 201), sold as WM5800HVA.
 //
@@ -556,3 +557,13 @@ export default class Device extends AABBDevice {
         // Still not located: the error code, and a cycle-progress step like the LG dryers keep.
     }
 }
+
+export const models: ModelEntry[] = [
+    // LG WM5800HVA front-load washer, long 0xFF-escaped AABB framing with 72-byte records
+    {
+        category: 'Washing machines',
+        ids: ['FAFXU25006'],
+        appliance: 'WM5800HVA, Front-Load Washing Machine',
+        support: '👍 mostly working, read-only',
+    },
+]

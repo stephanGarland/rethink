@@ -5,6 +5,7 @@ import { type Metadata } from '../thinq'
 import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { packStatus, Status, TemperatureUnit, unpackStatus } from './fridge_common'
+import { type ModelEntry } from '../registry'
 
 const STATUS_LENGTH = 12
 
@@ -169,3 +170,18 @@ export default class Device extends AABBDevice {
         }
     }
 }
+
+export const models: ModelEntry[] = [
+    {
+        category: 'Fridges',
+        ids: ['2RES1VE600FWC'],
+        appliance: 'GA-B509CMUM',
+        support: '🫤 preliminary support',
+    },
+    {
+        category: 'Fridges',
+        ids: ['2RES1VE61NFWA'],
+        appliance: 'GSX961MCCZ, InstaView Door-in-Door Side by Side Refrigerator',
+        support: '🫤 preliminary support',
+    },
+]
