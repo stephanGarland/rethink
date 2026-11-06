@@ -17,7 +17,9 @@ please state it in the code/PR comments.
   is a subjective decision, no hard rules here.
 - **English names only.** This covers all entity names/values exposed to HomeAssistant.
 - **Consistency.** When introducing an entity, check if other similar devices already provide
-  it. Try to maintain consistent labels/icons/HA metadata.
+  it. Try to maintain consistent labels/icons/HA metadata. Washers and dryers build their
+  components with `entities()` (which derives unique IDs and topics from the keys) and take
+  shared entities from `laundry_entities.ts`, overriding only what differs.
 - **Follow HA conventions.** As much as possible, try to use HA-native formats/units.
   Notably, values that represent a closed set of options should likely use `class: 'enum'`.
 - **Follow HA class requirements.** If an entity uses `class: 'enum'`, providing values

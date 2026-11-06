@@ -5,6 +5,8 @@ import { type Metadata } from '../thinq'
 import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
+import { entities } from './entities'
+import { laundry } from './laundry_entities'
 
 // LG front-load washer — matched on modelId "F3L2CYU__". AABB frames (buf = the AABB body, AA+len and
 // checksum+BB already stripped, buf[0]==0x20 on every frame) are discriminated by buf[1] (NOT buf[3],
@@ -145,122 +147,50 @@ export default class Device extends AABBDevice {
         this.setConfig(
             allowExtendedType({
                 ...HADevice.config(meta, { name: 'LG Washer' }),
-                components: {
+                components: entities({
                     power: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-power',
-                        state_topic: '$this/power',
                         name: 'Power',
                         icon: 'mdi:washing-machine',
                         device_class: 'running',
                     },
-                    status: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-status',
-                        state_topic: '$this/status',
-                        name: 'Status',
-                        icon: 'mdi:state-machine',
-                        device_class: 'enum',
-                        options: STATUS.options,
-                    },
-                    course: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-course',
-                        state_topic: '$this/course',
-                        name: 'Course',
-                        icon: 'mdi:pin-outline',
-                    },
-                    remaining_time: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-remaining_time',
-                        state_topic: '$this/remaining_time',
-                        name: 'Remaining time',
-                        icon: 'mdi:timer-outline',
-                        device_class: 'duration',
-                        unit_of_measurement: 'min',
-                        // dual-purpose: the estimated cycle time while selecting, the countdown while
-                        // running — this model has no separate byte for a persistent "initial estimate".
-                    },
-                    reserve_time: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-reserve_time',
-                        state_topic: '$this/reserve_time',
-                        name: 'Delay Wash time remaining',
-                        icon: 'mdi:clock-outline',
-                        device_class: 'duration',
-                        unit_of_measurement: 'min',
-                    },
+                    status: laundry.status(STATUS.options),
+                    course: laundry.course(),
+                    // dual-purpose: the estimated cycle time while selecting, the countdown while
+                    // running — this model has no separate byte for a persistent "initial estimate".
+                    remaining_time: laundry.remainingTime({ icon: 'mdi:timer-outline' }),
+                    reserve_time: laundry.reserveTime(),
                     soil: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-soil',
-                        state_topic: '$this/soil',
                         name: 'Soil level',
                         icon: 'mdi:liquid-spot',
                     },
                     spin: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-spin',
-                        state_topic: '$this/spin',
                         name: 'Spin',
                         icon: 'mdi:autorenew',
                     },
                     temp: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-temp',
-                        state_topic: '$this/temp',
                         name: 'Temperature',
                         icon: 'mdi:thermometer',
                     },
-                    extra_rinse: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-extra_rinse',
-                        state_topic: '$this/extra_rinse',
-                        name: 'Extra rinse',
-                        icon: 'mdi:water-sync',
-                    },
+                    extra_rinse: laundry.extraRinse({ icon: 'mdi:water-sync' }),
                     extra_rinse_count: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-extra_rinse_count',
-                        state_topic: '$this/extra_rinse_count',
                         name: 'Extra rinse count',
                         icon: 'mdi:water-sync',
                         state_class: 'measurement',
                     },
-                    pre_wash: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-pre_wash',
-                        state_topic: '$this/pre_wash',
-                        name: 'Pre-wash',
-                        icon: 'mdi:water-sync',
-                    },
-                    steam: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-steam',
-                        state_topic: '$this/steam',
-                        name: 'Steam',
-                        icon: 'mdi:kettle-steam',
-                    },
+                    pre_wash: laundry.preWash(),
+                    steam: laundry.steam(),
                     cold_wash: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-cold_wash',
-                        state_topic: '$this/cold_wash',
                         name: 'Cold wash',
                         icon: 'mdi:snowflake',
                     },
-                    turbo_wash: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-turbo_wash',
-                        state_topic: '$this/turbo_wash',
-                        name: 'TurboWash',
-                        icon: 'mdi:rocket-launch',
-                    },
-                    delay_wash: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-delay_wash',
-                        state_topic: '$this/delay_wash',
-                        name: 'Delay Wash',
-                        icon: 'mdi:clock-plus-outline',
-                    },
+                    turbo_wash: laundry.turboWash(),
+                    delay_wash: laundry.delayWash(),
                     door: {
                         platform: 'binary_sensor',
                         unique_id: '$deviceid-door',
@@ -270,13 +200,11 @@ export default class Device extends AABBDevice {
                     },
                     door_lock: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-door_lock',
-                        state_topic: '$this/door_lock',
                         name: 'Door lock',
                         icon: 'mdi:lock', // NOT device_class 'lock' — that class is inverted (on = unlocked)
                         entity_category: 'diagnostic',
                     },
-                },
+                }),
             }),
         )
     }

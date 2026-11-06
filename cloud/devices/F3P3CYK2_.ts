@@ -5,6 +5,8 @@ import { type Metadata } from '../thinq'
 import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
+import { entities } from './entities'
+import { laundry } from './laundry_entities'
 
 // LG WM4200HBA front-load washer, matched on modelId "F3P3CYK2_" (thinq2 deviceType 201).
 //
@@ -167,19 +169,15 @@ export default class Device extends AABBDevice {
         this.setConfig(
             allowExtendedType({
                 ...HADevice.config(meta, { name: 'LG Washer' }),
-                components: {
+                components: entities({
                     power: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-power',
-                        state_topic: '$this/power',
                         name: 'Power',
                         icon: 'mdi:washing-machine',
                         device_class: 'running',
                     },
                     power_off: {
                         platform: 'button',
-                        unique_id: '$deviceid-power_off',
-                        command_topic: '$this/power_off/set',
                         payload_press: 'PRESS',
                         name: 'Power off',
                         icon: 'mdi:power-off',
@@ -191,26 +189,14 @@ export default class Device extends AABBDevice {
                             },
                         ],
                     },
-                    status: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-status',
-                        state_topic: '$this/status',
-                        name: 'Status',
-                        icon: 'mdi:state-machine',
-                        device_class: 'enum',
-                        options: STATUS.options,
-                    },
+                    status: laundry.status(STATUS.options),
                     run_completed: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-run_completed',
-                        state_topic: '$this/run_completed',
                         name: 'Run completed',
                         icon: 'mdi:check-circle',
                     },
                     error_state: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-error_state',
-                        state_topic: '$this/error_state',
                         name: 'Error state',
                         icon: 'mdi:alert-circle-outline',
                         device_class: 'problem',
@@ -218,110 +204,31 @@ export default class Device extends AABBDevice {
                     },
                     error_message: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-error_message',
-                        state_topic: '$this/error_message',
                         name: 'Error message',
                         icon: 'mdi:alert-circle-outline',
                         entity_category: 'diagnostic',
                     },
-                    course: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-course',
-                        state_topic: '$this/course',
-                        name: 'Course',
-                        icon: 'mdi:pin-outline',
-                        device_class: 'enum',
-                        options: COURSE.options,
-                    },
-                    remaining_time: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-remaining_time',
-                        state_topic: '$this/remaining_time',
-                        name: 'Remaining time',
-                        icon: 'mdi:timer-outline',
-                        device_class: 'duration',
-                        unit_of_measurement: 'min',
-                    },
-                    initial_time: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-initial_time',
-                        state_topic: '$this/initial_time',
-                        name: 'Initial time',
-                        icon: 'mdi:timer-sand',
-                        device_class: 'duration',
-                        unit_of_measurement: 'min',
-                    },
-                    reserve_time: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-reserve_time',
-                        state_topic: '$this/reserve_time',
-                        name: 'Delay Wash time remaining',
-                        icon: 'mdi:clock-outline',
-                        device_class: 'duration',
-                        unit_of_measurement: 'min',
-                    },
-                    soil: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-soil',
-                        state_topic: '$this/soil',
-                        name: 'Soil level',
-                        icon: 'mdi:liquid-spot',
-                        device_class: 'enum',
-                        options: SOIL.options,
-                    },
-                    temp: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-temp',
-                        state_topic: '$this/temp',
-                        name: 'Temperature',
-                        icon: 'mdi:thermometer',
-                        device_class: 'enum',
-                        options: TEMP.options,
-                    },
-                    rinse: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-rinse',
-                        state_topic: '$this/rinse',
-                        name: 'Rinse',
-                        icon: 'mdi:water-sync',
-                        device_class: 'enum',
-                        options: RINSE.options,
-                    },
-                    spin: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-spin',
-                        state_topic: '$this/spin',
-                        name: 'Spin',
-                        icon: 'mdi:autorenew',
-                        device_class: 'enum',
-                        options: SPIN.options,
-                    },
+                    course: laundry.course({ device_class: 'enum', options: COURSE.options }),
+                    remaining_time: laundry.remainingTime({ icon: 'mdi:timer-outline' }),
+                    initial_time: laundry.initialTime({ icon: 'mdi:timer-sand' }),
+                    reserve_time: laundry.reserveTime(),
+                    soil: laundry.soilLevel(SOIL.options),
+                    temp: laundry.temperature(TEMP.options, { icon: 'mdi:thermometer' }),
+                    rinse: laundry.rinse(RINSE.options, { icon: 'mdi:water-sync' }),
+                    spin: laundry.spin(SPIN.options),
                     rinse_spin: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-rinse_spin',
-                        state_topic: '$this/rinse_spin',
                         name: 'Rinse + Spin',
                         icon: 'mdi:water-sync',
                     },
                     tub_clean_count: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-tub_clean_count',
-                        state_topic: '$this/tub_clean_count',
                         name: 'Washes since Tub Clean',
                         icon: 'mdi:counter',
                         entity_category: 'diagnostic',
                     },
-                    buzzer: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-buzzer',
-                        state_topic: '$this/buzzer',
-                        name: 'Buzzer',
-                        icon: 'mdi:volume-high',
-                        device_class: 'enum',
-                        options: BUZZER.options,
-                        entity_category: 'diagnostic',
-                    },
-                },
+                    buzzer: laundry.buzzer(BUZZER.options),
+                }),
             }),
         )
     }

@@ -5,6 +5,8 @@ import { type Metadata } from '../thinq'
 import { allowExtendedType } from '@/util/casting'
 import AABBDevice from './aabb_device'
 import { Enum } from '@/util/enum'
+import { entities } from './entities'
+import { laundry } from './laundry_entities'
 
 // LG RC9DN9029 (ThinQ Model ID RC90U2_WW, deviceType 202): 9 kg DUAL Inverter heat pump dryer with
 // Eco Hybrid, EU/Nordic market. ThinQ2 with the QCOM_QCA4010 module (clip_hna_v1.9.230, protocolVer
@@ -149,102 +151,30 @@ export default class Device extends AABBDevice {
         this.setConfig(
             allowExtendedType({
                 ...HADevice.config(meta, { name: 'LG Dryer' }),
-                components: {
+                components: entities({
                     power: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-power',
-                        state_topic: '$this/power',
                         name: 'Power',
                         icon: 'mdi:tumble-dryer',
                         device_class: 'running',
                     },
-                    status: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-status',
-                        state_topic: '$this/status',
-                        name: 'Status',
-                        icon: 'mdi:state-machine',
-                        device_class: 'enum',
-                        options: STATES.options,
-                    },
+                    status: laundry.status(STATES.options),
                     phase: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-phase',
-                        state_topic: '$this/phase',
                         name: 'Phase',
                         icon: 'mdi:progress-clock',
                         device_class: 'enum',
                         options: PHASES.options,
                     },
-                    error: {
-                        platform: 'binary_sensor',
-                        unique_id: '$deviceid-error',
-                        state_topic: '$this/error',
-                        name: 'Error',
-                        icon: 'mdi:check-circle',
-                        device_class: 'problem',
-                        entity_category: 'diagnostic',
-                    },
-                    error_message: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-error-message',
-                        state_topic: '$this/error_message',
-                        name: 'Error message',
-                        icon: 'mdi:alert-circle-outline',
-                        device_class: 'enum',
-                        entity_category: 'diagnostic',
-                        options: ERRORS.options,
-                    },
-                    course: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-course',
-                        state_topic: '$this/course',
-                        name: 'Course',
-                        icon: 'mdi:pin-outline',
-                        device_class: 'enum',
-                        options: COURSES.options,
-                    },
-                    dry_level: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-dry_level',
-                        state_topic: '$this/dry_level',
-                        name: 'Dry level',
-                        icon: 'mdi:water-percent',
-                        device_class: 'enum',
-                        options: DRY_LEVELS.options,
-                    },
-                    eco_hybrid: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-eco_hybrid',
-                        state_topic: '$this/eco_hybrid',
-                        name: 'Eco Hybrid',
-                        icon: 'mdi:leaf',
-                        device_class: 'enum',
-                        options: ECO_HYBRID.options,
-                    },
-                    remaining_time: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-remaining_time',
-                        state_topic: '$this/remaining_time',
-                        name: 'Remaining time',
-                        icon: 'mdi:timer-outline',
-                        device_class: 'duration',
-                        unit_of_measurement: 'min',
-                    },
-                    initial_time: {
-                        platform: 'sensor',
-                        unique_id: '$deviceid-initial_time',
-                        state_topic: '$this/initial_time',
-                        name: 'Initial time',
-                        icon: 'mdi:clock-outline',
-                        device_class: 'duration',
-                        unit_of_measurement: 'min',
-                        entity_category: 'diagnostic',
-                    },
+                    error: laundry.error(),
+                    error_message: laundry.errorMessage(ERRORS.options, { unique_id: '$deviceid-error-message' }),
+                    course: laundry.course({ device_class: 'enum', options: COURSES.options }),
+                    dry_level: laundry.dryLevel(DRY_LEVELS.options),
+                    eco_hybrid: laundry.ecoHybrid(ECO_HYBRID.options),
+                    remaining_time: laundry.remainingTime({ icon: 'mdi:timer-outline' }),
+                    initial_time: laundry.initialTime({ icon: 'mdi:clock-outline', entity_category: 'diagnostic' }),
                     reserve_time: {
                         platform: 'sensor',
-                        unique_id: '$deviceid-reserve_time',
-                        state_topic: '$this/reserve_time',
                         name: 'Delay end',
                         icon: 'mdi:timer-sand',
                         device_class: 'duration',
@@ -252,41 +182,31 @@ export default class Device extends AABBDevice {
                     },
                     delay: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-delay',
-                        state_topic: '$this/delay',
                         name: 'Delay end set',
                         icon: 'mdi:timer-sand',
                     },
                     anti_crease: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-anti_crease',
-                        state_topic: '$this/anti_crease',
                         name: 'Anti crease',
                         icon: 'mdi:iron-outline',
                     },
                     child_lock: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-child_lock',
-                        state_topic: '$this/child_lock',
                         name: 'Child lock',
                         icon: 'mdi:lock-outline',
                         entity_category: 'diagnostic',
                     },
                     damp_dry_beep: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-damp_dry_beep',
-                        state_topic: '$this/damp_dry_beep',
                         name: 'Damp dry beep',
                         icon: 'mdi:water-alert-outline',
                     },
                     hand_iron: {
                         platform: 'binary_sensor',
-                        unique_id: '$deviceid-hand_iron',
-                        state_topic: '$this/hand_iron',
                         name: 'Hand iron',
                         icon: 'mdi:iron',
                     },
-                },
+                }),
             }),
         )
     }
